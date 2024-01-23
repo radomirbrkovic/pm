@@ -34,3 +34,21 @@ class UserModelTest(TestCase):
             get_user_model().objects.create_user(
                 **data
             )
+
+    def test_update_user(self):
+        """Testing update a user"""
+
+        data = {
+            'email': 'test@example.com',
+            'name': 'John Doe',
+            'password': 'test123'
+        }
+        user = get_user_model().objects.create_user(
+            **data
+        )
+
+        new_name = "New Name"
+        user.name = new_name
+        user.save()
+        user.refresh_from_db()
+        self.assertEqual(user.name, new_name)
