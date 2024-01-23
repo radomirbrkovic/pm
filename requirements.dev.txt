@@ -1,1 +1,2 @@
 flake8>=6.1,<6.2
+django-nose>=1.4.7
