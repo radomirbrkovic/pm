@@ -22,3 +22,15 @@ class UserModelTest(TestCase):
         self.assertEqual(user.email, data['email'])
         self.assertEqual(user.name, data['name'])
         self.assertTrue(user.check_password(data['password']))
+
+    def test_create_user_invalid(self):
+        """Test don't create user if email is missing"""
+        data = {
+            'email': '',
+            'name': 'John Doe',
+            'password': 'test123'
+        }
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_user(
+                **data
+            )
