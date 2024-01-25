@@ -17,11 +17,25 @@
   <!-- CSS Files -->
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
   <link href="{% static 'css/paper-dashboard.css' %}?v=2.0.1" rel="stylesheet" />
-
+  {% block head %} {% endblock %}
 </head>
 <body>
-<h1>Hello django</h1>
 
+  <div class="wrapper ">
+    {% include 'partials/_sidebar.html' %}
+    {% include 'partials/_topbar.html' %}
+
+  </div>
+
+  <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            {% block content %} {% endblock %}
+          </div>
+        </div>
+  </div>
+
+   {% block scripts %} {% endblock %}
   <script src="{% static 'js/core/jquery.min.js' %}"></script>
   <script src="{% static 'js/core/popper.min.js' %}"></script>
   <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
