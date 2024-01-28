@@ -4216,3 +4216,7 @@ License - nucleoapp.com/license/
     padding: 15px; } }
 
 /*# sourceMappingURL=paper-dashboard.css.map */
+
+.alert-error {
+    background-color: #721c24;
+}
