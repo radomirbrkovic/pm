@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from .models import User
+from .validators import Register
 
 def index(request):
     return render(request, 'base.html')
@@ -25,12 +26,8 @@ def login(request):
 def register(request):
     if request.method == 'POST':
         data = request.POST
-        if (data['password'] != data['password2']):
-            messages.error(request, 'Password is not equal')
-            return redirect('register')
-
-        if User.objects.filter(email=data['email']).exists():
-            messages.error(request, 'The email is already taken')
+        validator = Register()
+        if not validator.is_valid(request, data):
             return redirect('register')
 
         user = User.objects.create_user(email=data['email'], name=data['name'], password=data['password'])
