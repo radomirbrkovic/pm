@@ -13,7 +13,6 @@ class Category(models.Model):
         ('asset', "Asset"),
         ('liability', "Liability"),
     ), default='revenue')
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         return self.name
