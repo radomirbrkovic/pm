@@ -15,3 +15,6 @@ class Register:
         if User.objects.filter(email=data['email']).exists():
             messages.error(request, 'The email is already taken')
             return False
+
+
+        return True
