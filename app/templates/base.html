@@ -25,15 +25,16 @@
     {% include 'partials/_sidebar.html' %}
     {% include 'partials/_topbar.html' %}
 
-  </div>
-
-  <div class="content">
+      <div class="content">
         <div class="row">
           <div class="col-md-12">
             {% block content %} {% endblock %}
           </div>
         </div>
   </div>
+  </div>
+
+
 
    {% block scripts %} {% endblock %}
   <script src="{% static 'js/core/jquery.min.js' %}"></script>
