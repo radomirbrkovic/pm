@@ -6,6 +6,7 @@
         <h4 class="card-title"> Transactions</h4>
     </div>
     <div class="card-body">
+           {% if transactions %}
            <div class="table-responsive">
                   <table class="table">
                       <thead class=" text-primary">
@@ -17,27 +18,20 @@
                             </tr>
                       </thead>
                       <tbody>
+                           {% for transaction in transactions %}
                             <tr class="table-danger">
-                                <td>01.02.2024</td>
-                                <td>150.00</td>
-                                <td>Food</td>
+                                <td>{{ transaction.date }}</td>
+                                <td>{{ transaction.amount }}</td>
+                                <td>{{ transaction.category.name }}</td>
                                 <td></td>
                             </tr>
-                            <tr class="table-success">
-                                <td>01.02.2024</td>
-                                <td>150.00</td>
-                                <td>Salary</td>
-                                <td></td>
-                            </tr>
-                            <tr class="table-info">
-                                <td>01.02.2024</td>
-                                <td>150.00</td>
-                                <td>Asset</td>
-                                <td></td>
-                            </tr>
+                            {% endfor %}
                       </tbody>
                   </table>
            </div>
+           {% else %}
+                <p>There is no transactions yet.</p>
+           {% endif %}
     </div>
 </div>
 
