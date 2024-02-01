@@ -11,3 +11,10 @@ def index(request):
         'transactions': transactions
     }
     return render(request, 'transactions/index.html', context)
+
+def create(request):
+    categories = Category.objects.filter(
+            user=request.user
+        ).order_by('name')
+    context = {'categories': categories}
+    return render(request, 'transactions/create.html', context)
