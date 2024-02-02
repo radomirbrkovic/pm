@@ -40,7 +40,9 @@
                                 <td>{{ transaction.date }}</td>
                                 <td>{{ transaction.amount }}</td>
                                 <td>{{ transaction.category.name }}</td>
-                                <td></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-danger fnc-remove-item" data-id="{{ transaction.id }}"  title="Remove item"><i class="nc-icon nc-simple-remove"></i></a>
+                                </td>
                             </tr>
                             {% endfor %}
                       </tbody>
@@ -52,4 +54,24 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(".fnc-remove-item").click(function(e) {
+
+            e.preventDefault();
+            if(confirm("Do you wan to delete item?")) {
+                $.ajax({
+                    url: "",
+                    method: "DELETE",
+                    data: {_token: "{{ csrf_token }}", id: $(this).data('id')},
+                    success: function() {
+                        window.location.reload();
+                    }
+                });
+            }
+
+        });
+    </script>
 {% endblock %}
