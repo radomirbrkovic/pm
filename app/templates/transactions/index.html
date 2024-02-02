@@ -41,6 +41,7 @@
                                 <td>{{ transaction.amount }}</td>
                                 <td>{{ transaction.category.name }}</td>
                                 <td>
+                                    <a href="{% url 'transactions.edit' transaction.id%} " class="btn btn-sm btn-default"  title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
                                     <a href="#" class="btn btn-sm btn-danger fnc-remove-item" data-id="{{ transaction.id }}"  title="Remove item"><i class="nc-icon nc-simple-remove"></i></a>
                                 </td>
                             </tr>

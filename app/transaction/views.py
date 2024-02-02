@@ -42,6 +42,18 @@ def create(request):
 
     return render(request, 'transactions/create.html', context)
 
+def edit(request, id):
+    categories = Category.objects.filter(
+        user=request.user
+    ).order_by('name')
+    transaction = Transaction.objects.get(id=id)
+    context = {
+        'categories': categories,
+        'transaction': transaction
+    }
+
+    return render(request, 'transactions/edit.html', context)
+
 def delete(request):
     if request.method == "POST":
         transaction = Transaction.objects.get(id=request.POST['id'])
