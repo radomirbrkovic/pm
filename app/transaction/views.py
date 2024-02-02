@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Transaction, Category
 from .validators import TransactionValidator
 from decimal import Decimal
+from django.http import HttpResponse
 
 @login_required
 def index(request):
@@ -40,3 +41,9 @@ def create(request):
 
 
     return render(request, 'transactions/create.html', context)
+
+def delete(request):
+    if request.method == "POST":
+        transaction = Transaction.objects.get(id=request.POST['id'])
+        transaction.delete()
+        return HttpResponse('')

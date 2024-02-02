@@ -63,9 +63,9 @@
             e.preventDefault();
             if(confirm("Do you wan to delete item?")) {
                 $.ajax({
-                    url: "",
-                    method: "DELETE",
-                    data: {_token: "{{ csrf_token }}", id: $(this).data('id')},
+                    url: "{% url 'transactions.delete' %}",
+                    method: "POST",
+                    data: {csrfmiddlewaretoken: "{{ csrf_token }}", id: $(this).data('id')},
                     success: function() {
                         window.location.reload();
                     }
