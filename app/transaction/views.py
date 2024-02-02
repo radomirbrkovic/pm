@@ -4,6 +4,7 @@ from .models import Transaction, Category
 from .validators import TransactionValidator
 from decimal import Decimal
 from django.http import HttpResponse
+from datetime import datetime
 
 @login_required
 def index(request):
@@ -28,8 +29,6 @@ def create(request):
             return redirect('transactions.create')
 
         category = Category.objects.get(id=data['category'])
-
-        print(data)
         Transaction.objects.create(
             user=request.user,
             category=category,
@@ -51,6 +50,21 @@ def edit(request, id):
         'categories': categories,
         'transaction': transaction
     }
+
+    if request.method == 'POST':
+        data = request.POST
+        validator = TransactionValidator()
+        if not validator.is_valid(request, data):
+            return redirect('transactions.edit', id=id)
+
+        category = Category.objects.get(id=data['category'])
+        date = datetime.strptime(data['date'], '%d.%m.%Y')
+        transaction.category = category
+        transaction.amount = data['amount']
+        transaction.date = date
+        transaction.save()
+
+        return redirect('transactions.index')
 
     return render(request, 'transactions/edit.html', context)
 
