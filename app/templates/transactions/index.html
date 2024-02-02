@@ -28,7 +28,15 @@
                       </thead>
                       <tbody>
                            {% for transaction in transactions %}
-                            <tr class="table-danger">
+                            <tr class="
+                                   {% if transaction.category.type == 'liability' %}
+                                        table-danger
+                                   {% elif transaction.category.type == 'asset' %}
+                                        table-info
+                                   {% elif transaction.category.type == 'revenue' %}
+                                        table-success
+                                   {% endif %}
+                                ">
                                 <td>{{ transaction.date }}</td>
                                 <td>{{ transaction.amount }}</td>
                                 <td>{{ transaction.category.name }}</td>
