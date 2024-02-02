@@ -135,3 +135,5 @@ AUTH_USER_MODEL = 'user.User'
 AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
 
 LOGIN_URL='login'
+
+DATE_INPUT_FORMAT=["%d.%m.%Y"]
