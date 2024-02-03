@@ -4,6 +4,13 @@ from decimal import Decimal
 
 class TransactionService:
 
+    def listOfTransactions(self, request):
+        transactions = Transaction.objects.filter(
+            user=request.user
+        )
+
+        return transactions.order_by('-id')
+
     def create(self, user, data):
         category = Category.objects.get(id=data['category'])
         Transaction.objects.create(

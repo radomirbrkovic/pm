@@ -9,11 +9,14 @@ service = TransactionService()
 
 @login_required
 def index(request):
-    transactions = Transaction.objects.filter(
-            user=request.user
-        ).order_by('-id')
+    categories = Category.objects.filter(
+        user=request.user
+    ).order_by('name')
+    transactions = service.listOfTransactions(request)
+
     context = {
-        'transactions': transactions
+        'transactions': transactions,
+        'categories': categories
     }
     return render(request, 'transactions/index.html', context)
 
