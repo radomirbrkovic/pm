@@ -9,6 +9,14 @@ class TransactionService:
             user=request.user
         )
 
+        if 'category' in request.GET and int(request.GET['category']) > 0:
+            category = Category.objects.get(id=request.GET['category'])
+            transactions = transactions.filter(category=category)
+
+        if 'date' in request.GET:
+            date = datetime.strptime(request.GET['date'], '%d.%m.%Y')
+            transactions = transactions.filter(date=date)
+
         return transactions.order_by('-id')
 
     def create(self, user, data):
