@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Transaction, Category
 from .validators import TransactionValidator
-from decimal import Decimal
 from django.http import HttpResponse
-from datetime import datetime
+from .services import TransactionService
+
+service = TransactionService()
 
 @login_required
 def index(request):
@@ -27,15 +28,7 @@ def create(request):
         validator = TransactionValidator()
         if not validator.is_valid(request, data):
             return redirect('transactions.create')
-
-        category = Category.objects.get(id=data['category'])
-        Transaction.objects.create(
-            user=request.user,
-            category=category,
-            amount=Decimal(data['amount']),
-            date=data['date']
-        )
-
+        service.create(request.user, data)
         return redirect('transactions.index')
 
 
@@ -56,20 +49,12 @@ def edit(request, id):
         validator = TransactionValidator()
         if not validator.is_valid(request, data):
             return redirect('transactions.edit', id=id)
-
-        category = Category.objects.get(id=data['category'])
-        date = datetime.strptime(data['date'], '%d.%m.%Y')
-        transaction.category = category
-        transaction.amount = data['amount']
-        transaction.date = date
-        transaction.save()
-
+        service.update(transaction, data)
         return redirect('transactions.index')
 
     return render(request, 'transactions/edit.html', context)
 
 def delete(request):
     if request.method == "POST":
-        transaction = Transaction.objects.get(id=request.POST['id'])
-        transaction.delete()
+        service.delete(request.POST['id'])
         return HttpResponse('')
