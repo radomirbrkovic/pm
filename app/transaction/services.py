@@ -25,7 +25,8 @@ class TransactionService:
             user=user,
             category=category,
             amount=Decimal(data['amount']),
-            date=data['date']
+            date=data['date'],
+            description=data['description']
         )
 
     def update(self, transaction, data):
@@ -34,6 +35,7 @@ class TransactionService:
         transaction.category = category
         transaction.amount = data['amount']
         transaction.date = date
+        transaction.description = data['description']
         transaction.save()
 
     def delete(self, id):
