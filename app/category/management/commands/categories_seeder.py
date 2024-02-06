@@ -3,7 +3,7 @@ Transaction categories database seeder
 """
 
 from django.core.management.base import BaseCommand
-from transaction.models import Category
+from category.models import Category
 
 
 class Command(BaseCommand):
@@ -11,12 +11,12 @@ class Command(BaseCommand):
         {
             'user_id': 1,
             'name': "Salary",
-            'type': "revenue"
+            'type': "income_active"
         },
         {
             'user_id': 1,
             'name': "Bonus",
-            'type': "revenue"
+            'type': "income_active"
         },
         {
             'user_id': 1,
@@ -76,12 +76,12 @@ class Command(BaseCommand):
         {
             'user_id': 1,
             'name': "Found for car",
-            'type': "asset"
+            'type': "liability"
         },
         {
             'user_id': 1,
             'name': "Found for traveling",
-            'type': "asset"
+            'type': "liability"
         },
         {
             'user_id': 1,
