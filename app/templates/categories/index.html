@@ -19,7 +19,7 @@
             <div class="form-group">
                 <select name="type" class="form-control">
                     <option value="">All types</option>
-                    {% for key, value in types %}
+                    {% for key, value in types.items %}
                         <option value="{{ key }}"
                          {% if values.type == key %}
                                selected="true"
@@ -48,7 +48,7 @@
                 {% for category in categories %}
                 <tr>
                     <td>{{ category.name }}</td>
-                    <td>{{ category.type }}</td>
+                    <td>{{ category.type_name }}</td>
                     <td>0</td>
                     <td>
 
