@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Transaction, Category
+from .models import Transaction
+from category.models import Category
 from .validators import TransactionValidator
 from django.http import HttpResponse
 from .services import TransactionService

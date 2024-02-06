@@ -1,4 +1,5 @@
-from .models import  Transaction, Category
+from .models import  Transaction
+from category.models import Category
 from datetime import datetime
 from decimal import Decimal
 
