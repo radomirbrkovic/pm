@@ -1,30 +1,40 @@
 {% load static %}
 <div class="sidebar" data-color="white" data-active-color="danger">
-      <div class="logo">
+    <div class="logo">
 
-          <div class="logo-image-small text-center">
+        <div class="logo-image-small text-center">
             <img src="{% static 'img/logo.png' %}" width="150" height="150">
-          </div>
-          <!-- <p>CT</p> -->
-      </div>
-      <div class="sidebar-wrapper">
+        </div>
+        <!-- <p>CT</p> -->
+    </div>
+    <div class="sidebar-wrapper">
         <ul class="nav">
-          <li>
-            <a href="./dashboard.html">
-              <i class="nc-icon nc-bank"></i>
-              <p>Dashboard</p>
+            <li>
+                <a href="./dashboard.html">
+                    <i class="nc-icon nc-bank"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+             <li
+                    {% if 'categories' in request.path %}
+            class="active"
+            {% endif %}>
+            <a href="{% url 'categories.index' %}">
+                <i class="nc-icon nc-bullet-list-67"></i>
+                <p>Categories</p>
             </a>
-          </li>
-          <li
-                  {% if 'transactions' in request.path %}
-                    class="active"
-                 {% endif %}>
+            </li>
+            <li
+                    {% if 'transactions' in request.path %}
+            class="active"
+            {% endif %}>
             <a href="{% url 'transactions.index' %}">
-              <i class="nc-icon nc-money-coins"></i>
-              <p>Transactions</p>
+                <i class="nc-icon nc-money-coins"></i>
+                <p>Transactions</p>
             </a>
-          </li>
+            </li>
+
 
         </ul>
-      </div>
     </div>
+</div>

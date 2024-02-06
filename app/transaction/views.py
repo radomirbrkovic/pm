@@ -22,6 +22,7 @@ def index(request):
     }
     return render(request, 'transactions/index.html', context)
 
+@login_required
 def create(request):
     categories = Category.objects.filter(
         user=request.user
@@ -39,6 +40,7 @@ def create(request):
 
     return render(request, 'transactions/create.html', context)
 
+@login_required
 def edit(request, id):
     categories = Category.objects.filter(
         user=request.user
@@ -59,6 +61,7 @@ def edit(request, id):
 
     return render(request, 'transactions/edit.html', context)
 
+@login_required
 def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
