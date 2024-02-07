@@ -13,6 +13,6 @@ class Transaction(models.Model):
         on_delete=models.CASCADE
     )
 
-    amount = models.DecimalField(max_digits=5, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True)

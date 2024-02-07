@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='Transaction',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=5)),
+                ('amount', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('date', models.DateField(auto_now_add=True)),
                 ('description', models.TextField(blank=True)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='category.category')),
