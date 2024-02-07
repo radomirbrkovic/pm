@@ -1,7 +1,7 @@
 """
 Custom form validators to handle form request
 """
-from .models import Category
+from category.models import Category
 from django.contrib import messages
 
 class TransactionValidator:

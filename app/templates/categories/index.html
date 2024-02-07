@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% block content %}
 <div class="card">
     <div class="card-header">
@@ -8,7 +8,7 @@
                 <h4 class="card-title"> Categories</h4>
             </div>
             <div class="col-2">
-                <!--<a href="{% url 'transactions.create' %}" class="btn btn-primary right">Add</a>-->
+                <a href="{% url 'categories.create' %}" class="btn btn-primary right">Add</a>
             </div>
         </div>
 
@@ -51,7 +51,12 @@
                     <td>{{ category.type_name }}</td>
                     <td>{{ category.total_transaction }}</td>
                     <td>
-
+                            <a href="{% url 'categories.edit' category.id %} " class="btn btn-sm btn-default"
+                           title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
+                            {% if category.transaction_set.count == 0 %}
+                            <a href="#" class="btn btn-sm btn-danger fnc-remove-item" data-id="{{ category.id }}"
+                                title="Remove item"><i class="nc-icon nc-simple-remove"></i></a>
+                            {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -64,4 +69,22 @@
     </div>
 </div>
 
+{% endblock %}
+{% block scripts %}
+    <script>
+    $(".fnc-remove-item").click(function(e) {
+
+        e.preventDefault();
+        if(confirm("Do you wan to delete item?")) {
+            $.ajax({
+                url: "{% url 'categories.delete' %}",
+                method: "POST",
+                data: {csrfmiddlewaretoken: "{{ csrf_token }}", id: $(this).data('id')},
+                success: function() {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+    </script>
 {% endblock %}

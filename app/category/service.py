@@ -30,3 +30,15 @@ class CategoryService:
 
 
         return categories
+
+    def create(self, user, data):
+        Category.objects.create(user=user, type=data['type'], name=data['name'])
+
+    def update(self, category, data):
+        category.type = data['type']
+        category.name = data['name']
+        category.save()
+
+    def delete(self, id):
+        category = Category.objects.get(id=id)
+        category.delete()
