@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .service import CategoryService
+from .validators import CategoryValidator
 
 service = CategoryService()
 
@@ -16,6 +17,18 @@ def index(request):
 
 @login_required
 def create(request):
+
+    if request.method == 'POST':
+        data = request.POST
+        validator = CategoryValidator()
+
+        if not validator.is_valid(request, data):
+            return redirect('categories.create')
+
+        service.create(user=request.user, data=data)
+        return redirect('categories.index')
+
+
     context = {
         'types': service.types
     }

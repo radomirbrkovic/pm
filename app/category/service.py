@@ -30,3 +30,6 @@ class CategoryService:
 
 
         return categories
+
+    def create(self, user, data):
+        Category.objects.create(user=user, type=data['type'], name=data['name'])
