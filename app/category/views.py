@@ -13,3 +13,11 @@ def index(request):
     }
 
     return render(request, 'categories/index.html', context)
+
+@login_required
+def create(request):
+    context = {
+        'types': service.types
+    }
+
+    return render(request, 'categories/create.html', context)
