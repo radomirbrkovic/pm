@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .service import CategoryService
 from .validators import CategoryValidator
+from .models import Category
 
 service = CategoryService()
 
@@ -34,3 +35,13 @@ def create(request):
     }
 
     return render(request, 'categories/create.html', context)
+
+@login_required
+def edit(request, id):
+    category = Category.objects.get(id=id)
+    context = {
+        'types': service.types,
+        'category': category
+    }
+
+    return render(request, 'categories/edit.html', context)

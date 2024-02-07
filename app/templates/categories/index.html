@@ -51,7 +51,8 @@
                     <td>{{ category.type_name }}</td>
                     <td>{{ category.total_transaction }}</td>
                     <td>
-
+                            <a href="{% url 'categories.edit' category.id %} " class="btn btn-sm btn-default"
+                           title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
