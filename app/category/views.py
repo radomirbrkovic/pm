@@ -39,6 +39,17 @@ def create(request):
 @login_required
 def edit(request, id):
     category = Category.objects.get(id=id)
+
+    if request.method == 'POST':
+        data = request.POST
+        validator = CategoryValidator()
+
+        if not validator.is_valid(request, data):
+            return redirect('categories.edit', category.id)
+
+        service.update(category=category, data=data)
+        return redirect('categories.index')
+
     context = {
         'types': service.types,
         'category': category
