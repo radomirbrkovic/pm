@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .service import CategoryService
 from .validators import CategoryValidator
 from .models import Category
+from django.http import HttpResponse
 
 service = CategoryService()
 
@@ -56,3 +57,9 @@ def edit(request, id):
     }
 
     return render(request, 'categories/edit.html', context)
+
+@login_required
+def delete(request):
+    if request.method == "POST":
+        service.delete(request.POST['id'])
+        return HttpResponse('')

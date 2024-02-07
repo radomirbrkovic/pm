@@ -38,3 +38,7 @@ class CategoryService:
         category.type = data['type']
         category.name = data['name']
         category.save()
+
+    def delete(self, id):
+        category = Category.objects.get(id=id)
+        category.delete()
