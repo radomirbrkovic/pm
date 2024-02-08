@@ -24,6 +24,15 @@
                 <p>Categories</p>
             </a>
             </li>
+             <li
+                    {% if 'funds' in request.path %}
+            class="active"
+            {% endif %}>
+            <a href="{% url 'funds.index' %}">
+                <i class="nc-icon nc-bank"></i>
+                <p>Funds</p>
+            </a>
+            </li>
             <li
                     {% if 'transactions' in request.path %}
             class="active"
