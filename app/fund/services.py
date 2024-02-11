@@ -2,6 +2,8 @@ from category.models import Category
 from datetime import datetime
 from decimal import Decimal
 from .models import Fund
+from transaction.models import Transaction
+from django.db.models import Sum
 
 class FundService:
 
@@ -13,6 +15,13 @@ class FundService:
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
             funds = funds.filter(category=category)
+
+        for fund in funds:
+            total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
+            fund.total_amount = fund.initial_amount
+
+            if total_transactions['amount__sum']:
+                fund.total_amount = fund.total_amount + total_transactions['amount__sum']
 
         return funds
 

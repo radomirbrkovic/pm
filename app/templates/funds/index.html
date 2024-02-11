@@ -38,7 +38,7 @@
                 <thead class=" text-primary">
                 <tr>
                     <th>Name</th>
-                    <th>Amount</th>
+                    <th>Total Amount</th>
                     <th>Target Amount</th>
                     <th>Execution Date</th>
                     <th>Actions</th>
@@ -48,7 +48,7 @@
                         {% for fund in funds %}
                 <tr>
                     <td>{{ fund.category.name }} ({{ fund.category.type }})</td>
-                    <td>{{ fund.initial_amount }}</td>
+                    <td>{{ fund.total_amount }}</td>
                     <td>{{ fund.target_amount }}</td>
                     <td>{{ fund.execution_date }}</td>
                     <td>
