@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from category.models import Category
+from .services import FundService
+
+service = FundService()
 
 @login_required
 def index(request):
@@ -17,6 +20,11 @@ def index(request):
 
 @login_required
 def create(request):
+
+    if request.method == 'POST':
+        service.create(request.user, request.POST)
+        return redirect('funds.index')
+
     categories = Category.objects.filter(
         user=request.user
     ).order_by('name')
