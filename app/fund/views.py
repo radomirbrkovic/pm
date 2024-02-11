@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from category.models import Category
 from .services import FundService
+from .models import Fund
 
 service = FundService()
 
@@ -35,3 +36,16 @@ def create(request):
     }
 
     return render(request, 'funds/create.html', context)
+
+@login_required
+def edit(request, id):
+    fund = Fund.objects.get(id = id)
+    categories = Category.objects.filter(
+        user=request.user
+    ).order_by('name')
+    context = {
+        'categories': categories,
+        'fund': fund
+    }
+
+    return render(request, 'funds/edit.html', context)

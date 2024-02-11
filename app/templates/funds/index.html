@@ -52,7 +52,8 @@
                     <td>{{ fund.target_amount }}</td>
                     <td>{{ fund.execution_date }}</td>
                     <td>
-
+                        <a href="{% url 'funds.edit' fund.id%} " class="btn btn-sm btn-default"
+                           title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
