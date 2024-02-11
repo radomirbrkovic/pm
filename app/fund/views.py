@@ -7,13 +7,15 @@ service = FundService()
 
 @login_required
 def index(request):
+    funds = service.getList(request)
     categories = Category.objects.filter(
         user=request.user
     ).order_by('name')
 
     context = {
         'categories': categories,
-        'values': request.GET
+        'values': request.GET,
+        'funds': funds
     }
 
     return render(request, 'funds/index.html', context)
