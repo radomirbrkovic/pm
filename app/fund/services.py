@@ -27,3 +27,13 @@ class FundService:
             execution_date = data['execution_date'],
             description = data['description'],
         )
+
+    def update(self, fund, data):
+        category = Category.objects.get(id=data['category'])
+        date = datetime.strptime(data['execution_date'], '%d.%m.%Y')
+        fund.category = category
+        fund.execution_date = date
+        fund.initial_amount = Decimal(data['initial_amount'])
+        fund.target_amount = Decimal(data['target_amount'])
+        fund.description = data['description']
+        fund.save()

@@ -40,6 +40,11 @@ def create(request):
 @login_required
 def edit(request, id):
     fund = Fund.objects.get(id = id)
+
+    if request.method == 'POST':
+        service.update(fund, request.POST)
+        return redirect('funds.index')
+
     categories = Category.objects.filter(
         user=request.user
     ).order_by('name')
