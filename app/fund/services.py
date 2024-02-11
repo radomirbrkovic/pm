@@ -8,7 +8,7 @@ class FundService:
     def getList(self, request):
         funds = Fund.objects.filter(
             user=request.user
-        ).order_by('-id')
+        ).order_by('execution_date')
 
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
