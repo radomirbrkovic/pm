@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from category.models import Category
 from .services import FundService
 from .models import Fund
+from django.http import HttpResponse
 
 service = FundService()
 
@@ -54,3 +55,9 @@ def edit(request, id):
     }
 
     return render(request, 'funds/edit.html', context)
+
+@login_required
+def delete(request):
+    if request.method == "POST":
+        service.delete(request.POST['id'])
+        return HttpResponse('')

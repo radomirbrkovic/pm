@@ -37,3 +37,7 @@ class FundService:
         fund.target_amount = Decimal(data['target_amount'])
         fund.description = data['description']
         fund.save()
+
+    def delete(self, id):
+        fund = Fund.objects.get(id=id)
+        fund.delete()
