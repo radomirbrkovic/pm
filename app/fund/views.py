@@ -65,6 +65,7 @@ def delete(request):
 @login_required
 def show(request, id):
     fund = Fund.objects.get(id=id)
+
     context = {
         'fund': fund
     }
