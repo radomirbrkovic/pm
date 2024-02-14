@@ -4,6 +4,8 @@ from decimal import Decimal
 from .models import Fund
 from transaction.models import Transaction
 from django.db.models import Sum
+from datetime import date, datetime
+
 
 class FundService:
 
@@ -61,6 +63,14 @@ class FundService:
         if total_transactions['amount__sum']:
             fund.total_amount = fund.total_amount + total_transactions['amount__sum']
 
-
+        fund.balance = fund.target_amount - fund.total_amount
+        fund.per_month = 0
+        if fund.target_amount > fund.total_amount:
+                today = date.today()
+                months = self._diff_month(fund.execution_date, today) if  self._diff_month(fund.execution_date, today) > 0 else 1
+                fund.per_month = fund.balance / months
 
         return fund
+
+    def _diff_month(self, d1, d2):
+        return (d1.year - d2.year) * 12 + d1.month - d2.month

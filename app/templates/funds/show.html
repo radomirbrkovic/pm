@@ -46,8 +46,15 @@
             <div class="col-6">
                 {{ fund.description }}
             </div>
+             <div class="col-6">
+                Balance
+            </div>
+            <div class="col-6">
+                {{ fund.balance | intcomma }} ({{ fund.per_month | intcomma }})
+            </div>
         </div>
 
+        <h3 class="mt-4">Transactions</h3>
         {% if fund.transactions %}
         <div class="table-responsive">
             <table class="table">
