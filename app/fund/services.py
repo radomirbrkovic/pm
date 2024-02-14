@@ -50,3 +50,17 @@ class FundService:
     def delete(self, id):
         fund = Fund.objects.get(id=id)
         fund.delete()
+
+
+    def show(self, id, request):
+        fund = Fund.objects.get(id=id, user=request.user)
+        fund.transactions = Transaction.objects.filter(category=fund.category)
+        total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
+        fund.total_amount = fund.initial_amount
+
+        if total_transactions['amount__sum']:
+            fund.total_amount = fund.total_amount + total_transactions['amount__sum']
+
+
+
+        return fund
