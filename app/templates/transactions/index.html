@@ -58,7 +58,7 @@
                                         table-danger
                                    {% elif transaction.category.type == 'asset' %}
                                         table-info
-                                   {% elif transaction.category.type == 'revenue' %}
+                                   {% elif transaction.category.type == 'income_active' or transaction.category.type == 'income_passive' %}
                                         table-success
                                    {% endif %}
                                 ">

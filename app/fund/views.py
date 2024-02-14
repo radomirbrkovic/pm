@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from category.models import Category
+from transaction.models import Transaction
 from .services import FundService
 from .models import Fund
 from django.http import HttpResponse
@@ -61,3 +62,12 @@ def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
         return HttpResponse('')
+
+@login_required
+def show(request, id):
+    fund = service.show(id, request)
+    context = {
+        'fund': fund
+    }
+
+    return render(request, 'funds/show.html', context)

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'category',
     'fund',
     'transaction',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
