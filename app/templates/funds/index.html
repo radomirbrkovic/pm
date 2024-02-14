@@ -55,6 +55,9 @@
                         <a href="{% url 'funds.edit' fund.id%} " class="btn btn-sm btn-default"
                            title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
 
+                        <a href="{% url 'funds.show' fund.id%} " class="btn btn-sm btn-primary"
+                           title="Show fund"><i class="nc-icon nc-zoom-split"></i></a>
+
                         <a href="#" class="btn btn-sm btn-danger fnc-remove-item" data-id="{{ fund.id }}"
                            title="Remove item"><i class="nc-icon nc-simple-remove"></i></a>
                     </td>

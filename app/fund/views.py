@@ -61,3 +61,12 @@ def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
         return HttpResponse('')
+
+@login_required
+def show(request, id):
+    fund = Fund.objects.get(id=id)
+    context = {
+        'fund': fund
+    }
+
+    return render(request, 'funds/show.html', context)
