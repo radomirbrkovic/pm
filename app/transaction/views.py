@@ -66,3 +66,7 @@ def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
         return HttpResponse('')
+
+@login_required
+def cashFlow(request):
+    return render(request, 'transactions/cash-flow.html')
