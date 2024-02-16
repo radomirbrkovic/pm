@@ -49,6 +49,7 @@
                     <th>Date</th>
                     <th>Amount</th>
                     <th>Category</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -66,6 +67,7 @@
                     <td>{{ transaction.date }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.category.name }}</td>
+                    <td>{{ transaction.description }}</td>
                     <td>
                         <a href="{% url 'transactions.edit' transaction.id%} " class="btn btn-sm btn-default"
                            title="Edit item"><i class="nc-icon nc-ruler-pencil"></i></a>
