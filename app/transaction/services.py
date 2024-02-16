@@ -79,6 +79,7 @@ class TransactionService:
         for key, item in data.items():
             item['assets_share'] = (item['assets'] / item['income']) * 100
             item['liabilities_share'] = (item['liabilities'] / item['income']) * 100
+            item['unallocated'] = item['income'] - item['liabilities']
 
 
         return data

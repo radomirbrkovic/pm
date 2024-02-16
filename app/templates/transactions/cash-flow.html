@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <canvas id="chart-feb-2024"></canvas>
+                    <canvas id="chart-{{ item.id }}"></canvas>
                     <div class="legend text-center">
                         <i class="fa fa-circle text-primary"></i> Assets
                         <i class="fa fa-circle text-danger"></i> Liabilities
@@ -87,7 +87,8 @@
         <script>
 
             $(document).ready(function() {
-                ctx = document.getElementById('chart-feb-2024').getContext("2d");
+                {% for key, item in data.items %}
+                ctx = document.getElementById('chart-{{ item.id }}').getContext("2d");
 
     myChart = new Chart(ctx, {
       type: 'pie',
@@ -98,13 +99,12 @@
           pointRadius: 0,
           pointHoverRadius: 0,
           backgroundColor: [
-            '#e3e3e3',
             '#4acccd',
-            '#fcc468',
-            '#ef8157'
+            '#ef8157',
+            '#e3e3e3'
           ],
           borderWidth: 0,
-          data: [342, 480, 530, 120]
+          data: [{{ item.assets }},  {{ item.liabilities }}, {{ item.unallocated }} ]
         }]
       },
 
@@ -152,6 +152,7 @@
         },
       }
     });
+    {% endfor %}
             });
         </script>
 {% endblock %}
