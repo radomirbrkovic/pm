@@ -75,7 +75,7 @@
         $("#datepicker").datepicker({
             autoclose: true,
             todayHighlight: true,
-        }).datepicker('update', new Date());
+        }).datepicker('update', new Date("{{ fund.execution_date }}"));
     });
 </script>
 {% endblock %}

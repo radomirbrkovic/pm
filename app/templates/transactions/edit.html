@@ -72,7 +72,7 @@
         $("#datepicker").datepicker({
             autoclose: true,
             todayHighlight: true,
-        }).datepicker('update', new Date());
+        }).datepicker('update', new Date("{{ transaction.date }}"));
     });
 </script>
 {% endblock %}
