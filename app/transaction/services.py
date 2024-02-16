@@ -52,11 +52,26 @@ class TransactionService:
         data = {}
 
         for transaction in transactions:
-            data[transaction.date.strftime("%m%Y")] = {
-                'label': transaction.date.strftime("%B %Y"),
-                'id': transaction.date.strftime("%b-%Y")
-            }
+            if transaction.date.strftime("%m%Y") not in data:
+                data[transaction.date.strftime("%m%Y")] = {
+                    'label': transaction.date.strftime("%B %Y"),
+                    'id': transaction.date.strftime("%b-%Y"),
+                    'income': 0.0,
+                    'expenses': 0.0,
+                    'assets': 0.0,
+                    'liabilities': 0.0
+                }
 
-
+            if transaction.category.type in ['income_active', 'income_passive']:
+                data[transaction.date.strftime("%m%Y")]['income'] = data[transaction.date.strftime("%m%Y")]['income'] + float(transaction.amount)
+            else:
+                data[transaction.date.strftime("%m%Y")]['expenses'] = data[transaction.date.strftime("%m%Y")][
+                                                                        'expenses'] + float(transaction.amount)
+                if transaction.category.type == 'asset':
+                    data[transaction.date.strftime("%m%Y")]['assets'] = data[transaction.date.strftime("%m%Y")][
+                                                                              'assets'] + float(transaction.amount)
+                elif transaction.category.type == 'liability':
+                    data[transaction.date.strftime("%m%Y")]['liabilities'] = data[transaction.date.strftime("%m%Y")][
+                                                                              'liabilities'] + float(transaction.amount)
 
         return data
