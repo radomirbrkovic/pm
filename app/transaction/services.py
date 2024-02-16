@@ -59,7 +59,9 @@ class TransactionService:
                     'income': 0.0,
                     'expenses': 0.0,
                     'assets': 0.0,
-                    'liabilities': 0.0
+                    'liabilities': 0.0,
+                    'assets_share': 0.0,
+                    'liabilities_share': 0.0
                 }
 
             if transaction.category.type in ['income_active', 'income_passive']:
@@ -73,5 +75,10 @@ class TransactionService:
                 elif transaction.category.type == 'liability':
                     data[transaction.date.strftime("%m%Y")]['liabilities'] = data[transaction.date.strftime("%m%Y")][
                                                                               'liabilities'] + float(transaction.amount)
+
+        for key, item in data.items():
+            item['assets_share'] = (item['assets'] / item['income']) * 100
+            item['liabilities_share'] = (item['liabilities'] / item['income']) * 100
+
 
         return data

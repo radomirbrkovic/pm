@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 <div class="card">
     <div class="card-header">
@@ -54,13 +55,13 @@
                             <strong>Assets</strong>
                         </div>
                         <div class="col-6 text-info">
-                            {{ item.assets }} (46%)
+                            {{ item.assets }} ({{ item.assets_share | floatformat:2 }}%)
                         </div>
                         <div class="col-6">
                             <strong>Liabilities</strong>
                         </div>
                         <div class="col-6 text-danger">
-                            {{ item.liabilities }} (32%)
+                            {{ item.liabilities }} ({{ item.liabilities_share | floatformat:2  }}%)
                         </div>
                     </div>
                 </div>
