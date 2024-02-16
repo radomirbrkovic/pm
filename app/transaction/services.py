@@ -42,3 +42,21 @@ class TransactionService:
     def delete(self, id):
         transaction = Transaction.objects.get(id=id)
         transaction.delete()
+
+
+    def cash_flow(self, request):
+        transactions = Transaction.objects.filter(
+            user=request.user
+        )
+
+        data = {}
+
+        for transaction in transactions:
+            data[transaction.date.strftime("%m%Y")] = {
+                'label': transaction.date.strftime("%B %Y"),
+                'id': transaction.date.strftime("%b-%Y")
+            }
+
+
+
+        return data

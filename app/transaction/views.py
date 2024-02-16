@@ -68,5 +68,9 @@ def delete(request):
         return HttpResponse('')
 
 @login_required
-def cashFlow(request):
-    return render(request, 'transactions/cash-flow.html')
+def cash_flow(request):
+    data = service.cash_flow(request)
+    context = {
+        'data': data
+    }
+    return render(request, 'transactions/cash-flow.html', context)
