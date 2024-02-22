@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'fund',
     'transaction',
     'django.contrib.humanize',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -140,3 +142,18 @@ AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
 LOGIN_URL='login'
 
 DATE_INPUT_FORMAT=["%d.%m.%Y"]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+def show_toolbar(request):
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
+}
+
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)

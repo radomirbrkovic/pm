@@ -1,9 +1,6 @@
 from category.models import Category
-from datetime import datetime
 from decimal import Decimal
 from .models import Fund
-from transaction.models import Transaction
-from django.db.models import Sum
 from datetime import date, datetime
 
 
@@ -12,18 +9,17 @@ class FundService:
     def getList(self, request):
         funds = Fund.objects.filter(
             user=request.user
-        ).order_by('execution_date')
+        ).order_by('execution_date').prefetch_related('category', 'category__transaction_set')
 
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
             funds = funds.filter(category=category)
 
         for fund in funds:
-            total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
             fund.total_amount = fund.initial_amount
 
-            if total_transactions['amount__sum']:
-                fund.total_amount = fund.total_amount + total_transactions['amount__sum']
+            for transaction in fund.category.transaction_set.all():
+                fund.total_amount = fund.total_amount + transaction.amount
 
         return funds
 
@@ -55,13 +51,12 @@ class FundService:
 
 
     def show(self, id, request):
-        fund = Fund.objects.get(id=id, user=request.user)
-        fund.transactions = Transaction.objects.filter(category=fund.category)
-        total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
+        fund = Fund.objects.prefetch_related('category', 'category__transaction_set').get(id=id, user=request.user)
+        fund.transactions = fund.category.transaction_set.all()
         fund.total_amount = fund.initial_amount
 
-        if total_transactions['amount__sum']:
-            fund.total_amount = fund.total_amount + total_transactions['amount__sum']
+        for transaction in fund.category.transaction_set.all():
+            fund.total_amount = fund.total_amount + transaction.amount
 
         fund.balance = fund.target_amount - fund.total_amount
         fund.per_month = 0
