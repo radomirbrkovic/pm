@@ -12,18 +12,17 @@ class FundService:
     def getList(self, request):
         funds = Fund.objects.filter(
             user=request.user
-        ).order_by('execution_date')
+        ).order_by('execution_date').prefetch_related('category', 'category__transaction_set')
 
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
             funds = funds.filter(category=category)
 
         for fund in funds:
-            total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
             fund.total_amount = fund.initial_amount
 
-            if total_transactions['amount__sum']:
-                fund.total_amount = fund.total_amount + total_transactions['amount__sum']
+            for transaction in fund.category.transaction_set.all():
+                fund.total_amount = fund.total_amount + transaction.amount
 
         return funds
 
