@@ -1,9 +1,6 @@
 from category.models import Category
-from datetime import datetime
 from decimal import Decimal
 from .models import Fund
-from transaction.models import Transaction
-from django.db.models import Sum
 from datetime import date, datetime
 
 
