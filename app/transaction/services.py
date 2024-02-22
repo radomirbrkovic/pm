@@ -47,7 +47,7 @@ class TransactionService:
     def cash_flow(self, request):
         transactions = Transaction.objects.filter(
             user=request.user
-        )
+        ).prefetch_related('category')
 
         data = {}
 
