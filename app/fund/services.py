@@ -54,13 +54,12 @@ class FundService:
 
 
     def show(self, id, request):
-        fund = Fund.objects.get(id=id, user=request.user)
-        fund.transactions = Transaction.objects.filter(category=fund.category)
-        total_transactions = Transaction.objects.filter(category=fund.category).aggregate(Sum('amount'))
+        fund = Fund.objects.prefetch_related('category', 'category__transaction_set').get(id=id, user=request.user)
+        fund.transactions = fund.category.transaction_set.all()
         fund.total_amount = fund.initial_amount
 
-        if total_transactions['amount__sum']:
-            fund.total_amount = fund.total_amount + total_transactions['amount__sum']
+        for transaction in fund.category.transaction_set.all():
+            fund.total_amount = fund.total_amount + transaction.amount
 
         fund.balance = fund.target_amount - fund.total_amount
         fund.per_month = 0
