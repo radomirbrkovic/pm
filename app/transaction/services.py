@@ -8,7 +8,7 @@ class TransactionService:
     def listOfTransactions(self, request):
         transactions = Transaction.objects.filter(
             user=request.user
-        )
+        ).prefetch_related('category')
 
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
