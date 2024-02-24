@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 service = CategoryService()
 
+
 @login_required
 def index(request):
     context = {
@@ -16,6 +17,7 @@ def index(request):
     }
 
     return render(request, 'categories/index.html', context)
+
 
 @login_required
 def create(request):
@@ -30,12 +32,12 @@ def create(request):
         service.create(user=request.user, data=data)
         return redirect('categories.index')
 
-
     context = {
         'types': service.types
     }
 
     return render(request, 'categories/create.html', context)
+
 
 @login_required
 def edit(request, id):
@@ -57,6 +59,7 @@ def edit(request, id):
     }
 
     return render(request, 'categories/edit.html', context)
+
 
 @login_required
 def delete(request):
