@@ -1,6 +1,7 @@
 from .models import Category
 from decimal import Decimal
 
+
 class CategoryService:
     """List of allowed types"""
     types = {
@@ -10,29 +11,32 @@ class CategoryService:
         'liability': "Liability",
     }
 
-
     def listOfCategories(self, request):
         categories = Category.objects.filter(
             user=request.user
         )
 
-        if 'type' in request.GET and  request.GET['type'] is not "" :
-            categories = categories.filter(type= request.GET['type'])
+        if 'type' in request.GET and request.GET['type'] != "":
+            categories = categories.filter(type=request.GET['type'])
 
-        categories = categories.order_by('-id').prefetch_related('transaction_set')
+        categories = (categories.order_by('-id')
+                      .prefetch_related('transaction_set'))
 
         for category in categories:
             category.type_name = self.types[category.type]
             category.total_transaction = Decimal('0')
 
-            for transaction in category.transaction_set.all() :
-                category.total_transaction = category.total_transaction + transaction.amount
-
+            for transaction in category.transaction_set.all():
+                category.total_transaction = (
+                        category.total_transaction + transaction.amount)
 
         return categories
 
     def create(self, user, data):
-        Category.objects.create(user=user, type=data['type'], name=data['name'])
+        Category.objects.create(
+            user=user,
+            type=data['type'],
+            name=data['name'])
 
     def update(self, category, data):
         category.type = data['type']

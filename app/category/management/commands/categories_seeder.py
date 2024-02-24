@@ -95,4 +95,3 @@ class Command(BaseCommand):
 
         for item in self.data:
             Category.objects.create(**item)
-
