@@ -7,9 +7,10 @@ from datetime import date, datetime
 class FundService:
 
     def getList(self, request):
-        funds = Fund.objects.filter(
+        funds = (Fund.objects.filter(
             user=request.user
-        ).order_by('execution_date').prefetch_related('category', 'category__transaction_set')
+        ).order_by('execution_date').
+                 prefetch_related('category', 'category__transaction_set'))
 
         if 'category' in request.GET and int(request.GET['category']) > 0:
             category = Category.objects.get(id=request.GET['category'])
@@ -23,16 +24,15 @@ class FundService:
 
         return funds
 
-
     def create(self, user, data):
         category = Category.objects.get(id=data['category'])
         Fund.objects.create(
-            user = user,
-            category = category,
-            initial_amount = Decimal(data['initial_amount']),
-            target_amount = Decimal(data['target_amount']),
-            execution_date = data['execution_date'],
-            description = data['description'],
+            user=user,
+            category=category,
+            initial_amount=Decimal(data['initial_amount']),
+            target_amount=Decimal(data['target_amount']),
+            execution_date=data['execution_date'],
+            description=data['description'],
         )
 
     def update(self, fund, data):
@@ -49,9 +49,10 @@ class FundService:
         fund = Fund.objects.get(id=id)
         fund.delete()
 
-
     def show(self, id, request):
-        fund = Fund.objects.prefetch_related('category', 'category__transaction_set').get(id=id, user=request.user)
+        fund = (Fund.objects.
+                prefetch_related('category', 'category__transaction_set')
+                .get(id=id, user=request.user))
         fund.transactions = fund.category.transaction_set.all()
         fund.total_amount = fund.initial_amount
 
@@ -61,9 +62,10 @@ class FundService:
         fund.balance = fund.target_amount - fund.total_amount
         fund.per_month = 0
         if fund.target_amount > fund.total_amount:
-                today = date.today()
-                months = self._diff_month(fund.execution_date, today) if  self._diff_month(fund.execution_date, today) > 0 else 1
-                fund.per_month = fund.balance / months
+            today = date.today()
+            months = self._diff_month(fund.execution_date, today) \
+                if self._diff_month(fund.execution_date, today) > 0 else 1
+            fund.per_month = fund.balance / months
 
         return fund
 
