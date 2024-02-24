@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from category.models import Category
-from transaction.models import Transaction
 from .services import FundService
 from .models import Fund
 from django.http import HttpResponse
 
 service = FundService()
+
 
 @login_required
 def index(request):
@@ -22,6 +22,7 @@ def index(request):
     }
 
     return render(request, 'funds/index.html', context)
+
 
 @login_required
 def create(request):
@@ -39,9 +40,10 @@ def create(request):
 
     return render(request, 'funds/create.html', context)
 
+
 @login_required
 def edit(request, id):
-    fund = Fund.objects.get(id = id)
+    fund = Fund.objects.get(id=id)
 
     if request.method == 'POST':
         service.update(fund, request.POST)
@@ -57,11 +59,13 @@ def edit(request, id):
 
     return render(request, 'funds/edit.html', context)
 
+
 @login_required
 def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
         return HttpResponse('')
+
 
 @login_required
 def show(request, id):
