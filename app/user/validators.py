@@ -16,5 +16,4 @@ class Register:
             messages.error(request, 'The email is already taken')
             return False
 
-
         return True

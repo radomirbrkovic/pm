@@ -4,9 +4,11 @@ from .models import User
 from .validators import Register
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def index(request):
     return render(request, 'base.html')
+
 
 def login(request):
     if request.method == 'POST':
@@ -23,7 +25,8 @@ def login(request):
             messages.error(request, "Invalid credentials")
             return redirect('login')
 
-    return  render(request, 'auth/login.html')
+    return render(request, 'auth/login.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -32,7 +35,10 @@ def register(request):
         if not validator.is_valid(request, data):
             return redirect('register')
 
-        user = User.objects.create_user(email=data['email'], name=data['name'], password=data['password'])
+        user = User.objects.create_user(
+            email=data['email'],
+            name=data['name'],
+            password=data['password'])
         user.save()
 
         messages.success(request, "You are successfully create account.")
