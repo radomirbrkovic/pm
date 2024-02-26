@@ -4,6 +4,7 @@ Custom form validators to handle form request
 from category.models import Category
 from django.contrib import messages
 
+
 class TransactionValidator:
 
     def is_valid(self, request, data) -> bool:
