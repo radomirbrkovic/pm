@@ -1,7 +1,8 @@
-from .models import  Transaction
+from .models import Transaction
 from category.models import Category
 from datetime import datetime
 from decimal import Decimal
+
 
 class TransactionService:
 
@@ -43,7 +44,6 @@ class TransactionService:
         transaction = Transaction.objects.get(id=id)
         transaction.delete()
 
-
     def cash_flow(self, request):
         transactions = Transaction.objects.filter(
             user=request.user
@@ -64,22 +64,29 @@ class TransactionService:
                     'liabilities_share': 0.0
                 }
 
-            if transaction.category.type in ['income_active', 'income_passive']:
-                data[transaction.date.strftime("%m%Y")]['income'] = data[transaction.date.strftime("%m%Y")]['income'] + float(transaction.amount)
+            if (transaction.category.type in
+                    ['income_active', 'income_passive']):
+                data[transaction.date.strftime("%m%Y")]['income'] =\
+                    (data[transaction.date.strftime("%m%Y")]['income'] +
+                     float(transaction.amount))
             else:
-                data[transaction.date.strftime("%m%Y")]['expenses'] = data[transaction.date.strftime("%m%Y")][
-                                                                        'expenses'] + float(transaction.amount)
+                data[transaction.date.strftime("%m%Y")]['expenses'] = (
+                        data[transaction.date.strftime("%m%Y")]['expenses'] +
+                        float(transaction.amount))
                 if transaction.category.type == 'asset':
-                    data[transaction.date.strftime("%m%Y")]['assets'] = data[transaction.date.strftime("%m%Y")][
-                                                                              'assets'] + float(transaction.amount)
+                    data[transaction.date.strftime("%m%Y")]['assets'] = (
+                            data[transaction.date.strftime("%m%Y")]['assets'] +
+                            float(transaction.amount))
                 elif transaction.category.type == 'liability':
-                    data[transaction.date.strftime("%m%Y")]['liabilities'] = data[transaction.date.strftime("%m%Y")][
-                                                                              'liabilities'] + float(transaction.amount)
+                    data[transaction.date.strftime("%m%Y")]['liabilities'] = (
+                            data[transaction.date.strftime("%m%Y")]
+                            ['liabilities'] +
+                            float(transaction.amount))
 
         for key, item in data.items():
             item['assets_share'] = (item['assets'] / item['income']) * 100
-            item['liabilities_share'] = (item['liabilities'] / item['income']) * 100
+            item['liabilities_share'] = (
+                    (item['liabilities'] / item['income']) * 100)
             item['unallocated'] = item['income'] - item['liabilities']
-
 
         return data
