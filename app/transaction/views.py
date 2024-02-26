@@ -8,6 +8,7 @@ from .services import TransactionService
 
 service = TransactionService()
 
+
 @login_required
 def index(request):
     categories = Category.objects.filter(
@@ -21,6 +22,7 @@ def index(request):
         'values': request.GET
     }
     return render(request, 'transactions/index.html', context)
+
 
 @login_required
 def create(request):
@@ -37,8 +39,8 @@ def create(request):
         service.create(request.user, data)
         return redirect('transactions.index')
 
-
     return render(request, 'transactions/create.html', context)
+
 
 @login_required
 def edit(request, id):
@@ -61,11 +63,13 @@ def edit(request, id):
 
     return render(request, 'transactions/edit.html', context)
 
+
 @login_required
 def delete(request):
     if request.method == "POST":
         service.delete(request.POST['id'])
         return HttpResponse('')
+
 
 @login_required
 def cash_flow(request):
