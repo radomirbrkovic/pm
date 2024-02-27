@@ -12,7 +12,7 @@ service = CategoryService()
 def index(request):
     context = {
         'types': service.types,
-        'categories': service.listOfCategories(request=request),
+        'categories': service.list_of_categories(request=request),
         'values': request.GET
     }
 
