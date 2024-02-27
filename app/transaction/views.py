@@ -14,7 +14,7 @@ def index(request):
     categories = Category.objects.filter(
         user=request.user
     ).order_by('name')
-    transactions = service.listOfTransactions(request)
+    transactions = service.list_of_transactions(request)
 
     context = {
         'transactions': transactions,

@@ -10,7 +10,7 @@ service = FundService()
 
 @login_required
 def index(request):
-    funds = service.getList(request)
+    funds = service.get_list(request)
     categories = Category.objects.filter(
         user=request.user
     ).order_by('name')

@@ -17,3 +17,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def update(self, type, name):
+        self.name = name
+        self.type = type
+        self.save()

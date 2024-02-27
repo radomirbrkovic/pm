@@ -6,7 +6,7 @@ from decimal import Decimal
 
 class TransactionService:
 
-    def listOfTransactions(self, request):
+    def list_of_transactions(self, request):
         transactions = Transaction.objects.filter(
             user=request.user
         ).prefetch_related('category')
@@ -34,11 +34,11 @@ class TransactionService:
     def update(self, transaction, data):
         category = Category.objects.get(id=data['category'])
         date = datetime.strptime(data['date'], '%d.%m.%Y')
-        transaction.category = category
-        transaction.amount = data['amount']
-        transaction.date = date
-        transaction.description = data['description']
-        transaction.save()
+        transaction.update(
+            category=category,
+            date=date,
+            amount=data['amount'],
+            description=data['description'])
 
     def delete(self, id):
         transaction = Transaction.objects.get(id=id)

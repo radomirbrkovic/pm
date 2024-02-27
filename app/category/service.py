@@ -11,7 +11,7 @@ class CategoryService:
         'liability': "Liability",
     }
 
-    def listOfCategories(self, request):
+    def list_of_categories(self, request):
         categories = Category.objects.filter(
             user=request.user
         )
@@ -39,9 +39,7 @@ class CategoryService:
             name=data['name'])
 
     def update(self, category, data):
-        category.type = data['type']
-        category.name = data['name']
-        category.save()
+        category.update(type=data['type'], name=data['name'])
 
     def delete(self, id):
         category = Category.objects.get(id=id)

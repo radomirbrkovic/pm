@@ -16,3 +16,10 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True)
+
+    def update(self, category, amount, date, description):
+        self.category = category
+        self.amount = amount
+        self.date = date
+        self.description = description
+        self.save()
