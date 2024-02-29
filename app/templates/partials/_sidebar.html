@@ -9,8 +9,12 @@
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            <li>
-                <a href="./dashboard.html">
+            <li
+                {% if request.path == "/" %}
+                    class="active"
+                {% endif %}
+            >
+                <a href="{% url 'dashboard' %}">
                     <i class="nc-icon nc-bank"></i>
                     <p>Dashboard</p>
                 </a>
