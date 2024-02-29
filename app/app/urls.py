@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from transaction import views
 import debug_toolbar
 
 urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),
+    path('', views.dashboard, name='dashboard'),
     path('', include('user.urls')),
     path('categories/', include('category.urls')),
     path('transactions/', include('transaction.urls')),
