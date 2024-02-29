@@ -1,5 +1,6 @@
 from .models import Transaction
 from category.models import Category
+from fund.models import Fund
 from datetime import datetime
 from decimal import Decimal
 
@@ -96,12 +97,19 @@ class TransactionService:
             user=request.user
         ).prefetch_related('category')
 
+        funds = (Fund.objects.filter(
+            user=request.user
+        ).order_by('execution_date').
+                 prefetch_related('category'))
+
         data = {   'income': 0.0,
                     'expenses': 0.0,
                     'assets': 0.0,
                     'liabilities': 0.0,
                     'assets_share': 0.0,
-                    'liabilities_share': 0.0
+                    'liabilities_share': 0.0,
+                    'net_value': 0.0,
+                    'total_liabilities': 0.0,
                    }
         for transaction in transactions:
 
@@ -118,9 +126,18 @@ class TransactionService:
                 elif transaction.category.type == 'liability':
                     data['liabilities'] = (data['liabilities'] +float(transaction.amount))
 
+        data['unallocated'] = data['income'] - data['liabilities']
 
-            data['assets_share'] = (data['assets'] / data['income']) * 100
-            data['liabilities_share'] = (data['liabilities'] / data['income']) * 100
-            data['unallocated'] = data['income'] - data['liabilities']
+        for fund in funds:
+            if fund.category.type == 'asset':
+                data['net_value'] = (data['net_value'] + float(fund.initial_amount))
+            elif fund.category.type == 'liability':
+                data['total_liabilities'] = (data['total_liabilities'] + float(fund.initial_amount))
+
+        data['assets_share'] = (data['assets'] / data['income']) * 100
+        data['liabilities_share'] = (data['liabilities'] / data['income']) * 100
+
+        data['net_value'] = data['net_value'] + data['assets']
+        data['total_liabilities'] = data['total_liabilities'] + data['liabilities']
 
         return data

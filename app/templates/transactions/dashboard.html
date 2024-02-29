@@ -10,45 +10,136 @@
             </div>
         </div>
 
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-6">
-                            <strong>Incomes</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fa fa-money  text-success" aria-hidden="true"></i>
                         </div>
-                        <div class="col-6 text-success">
-                           {{ data.income }}
-                        </div>
-                        <div class="col-6">
-                            <strong>Expenses</strong>
-                        </div>
-                        <div class="col-6 text-warning">
-                            {{ data.expenses }}
-                        </div>
-                         <div class="col-6">
-                            <strong>Unallocated</strong>
-                        </div>
-                        <div class="col-6 text-primary">
-                            {{ data.unallocated | floatformat:2  }}
-                        </div>
-                        <div class="col-6">
-                            <strong>Assets</strong>
-                        </div>
-                        <div class="col-6 text-info">
-                            {{ data.assets }} ({{ data.assets_share | floatformat:2 }}%)
-                        </div>
-                        <div class="col-6">
-                            <strong>Liabilities</strong>
-                        </div>
-                        <div class="col-6 text-danger">
-                            {{ data.liabilities }} ({{ data.liabilities_share | floatformat:2  }}%)
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Income</p>
+                            <p class="card-title">{{ data.income }}
+                            <p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fa fa-briefcase  text-primary" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Assets</p>
+                            <p class="card-title">{{ data.assets }} ({{ data.assets_share | floatformat:2 }}%)
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-5 col-md-4">
+                        <div class="icon-big text-center icon-warning">
+                            <i class="fa fa-university  text-primary" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category">Net Value</p>
+                            <p class="card-title">{{ data.net_value | floatformat:2 }}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category text-warning">Expenses</p>
+                            <p class="card-title">{{ data.expenses }}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category text-primary">Unallocated</p>
+                            <p class="card-title">{{ data.unallocated | floatformat:2 }}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category text-danger">Liabilities</p>
+                            <p class="card-title">{{ data.liabilities }} ({{ data.liabilities_share | floatformat:2 }}%)
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-body ">
+                <div class="row">
+
+                    <div class="col-7 col-md-8">
+                        <div class="numbers">
+                            <p class="card-category text-danger">Total Liabilities </p>
+                            <p class="card-title">{{ data.total_liabilities | floatformat:2 }}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
