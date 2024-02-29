@@ -10,7 +10,47 @@
             </div>
         </div>
 
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Incomes</strong>
+                        </div>
+                        <div class="col-6 text-success">
+                           {{ data.income }}
+                        </div>
+                        <div class="col-6">
+                            <strong>Expenses</strong>
+                        </div>
+                        <div class="col-6 text-warning">
+                            {{ data.expenses }}
+                        </div>
+                         <div class="col-6">
+                            <strong>Unallocated</strong>
+                        </div>
+                        <div class="col-6 text-primary">
+                            {{ data.unallocated | floatformat:2  }}
+                        </div>
+                        <div class="col-6">
+                            <strong>Assets</strong>
+                        </div>
+                        <div class="col-6 text-info">
+                            {{ data.assets }} ({{ data.assets_share | floatformat:2 }}%)
+                        </div>
+                        <div class="col-6">
+                            <strong>Liabilities</strong>
+                        </div>
+                        <div class="col-6 text-danger">
+                            {{ data.liabilities }} ({{ data.liabilities_share | floatformat:2  }}%)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
+
+
 {% endblock %}

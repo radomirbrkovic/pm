@@ -90,3 +90,37 @@ class TransactionService:
             item['unallocated'] = item['income'] - item['liabilities']
 
         return data
+
+    def dashboard(self, request):
+        transactions = Transaction.objects.filter(
+            user=request.user
+        ).prefetch_related('category')
+
+        data = {   'income': 0.0,
+                    'expenses': 0.0,
+                    'assets': 0.0,
+                    'liabilities': 0.0,
+                    'assets_share': 0.0,
+                    'liabilities_share': 0.0
+                   }
+        for transaction in transactions:
+
+
+            if (transaction.category.type in
+                    ['income_active', 'income_passive']):
+                data['income'] =\
+                    (data['income'] +
+                     float(transaction.amount))
+            else:
+                data['expenses'] = (data['expenses'] + float(transaction.amount))
+                if transaction.category.type == 'asset':
+                    data['assets'] = (data['assets'] + float(transaction.amount))
+                elif transaction.category.type == 'liability':
+                    data['liabilities'] = (data['liabilities'] +float(transaction.amount))
+
+
+            data['assets_share'] = (data['assets'] / data['income']) * 100
+            data['liabilities_share'] = (data['liabilities'] / data['income']) * 100
+            data['unallocated'] = data['income'] - data['liabilities']
+
+        return data

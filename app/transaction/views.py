@@ -82,4 +82,8 @@ def cash_flow(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'transactions/dashboard.html')
+    data = service.dashboard(request)
+    context = {
+        'data': data
+    }
+    return render(request, 'transactions/dashboard.html', context)
