@@ -143,5 +143,112 @@
     </div>
 </div>
 
+ <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title">Gross Value per month</h5>
+              </div>
+              <div class="card-body ">
+                <canvas id=gross-value width="400" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
 
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static '/js/plugins/chartjs.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            chartColor = "#FFFFFF";
+
+    ctx = document.getElementById('gross-value').getContext("2d");
+    labels = [0];
+    assets = [0];
+    liabilities = [0];
+    {% for label in data.chart.labels %}
+        labels.push("{{ label }}")
+    {% endfor %}
+
+     {% for key, value in data.chart.assets.items %}
+        assets.push({{ value | floatformat:0 }})
+    {% endfor %}
+
+    {% for key, value in data.chart.liabilities.items %}
+        liabilities.push({{ value | floatformat:0 }})
+    {% endfor %}
+
+    myChart = new Chart(ctx, {
+      type: 'line',
+
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            borderColor: "#721c24",
+            backgroundColor: "#f8d7da",
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            borderWidth: 3,
+            data: liabilities
+          },
+        {
+            borderColor: "#004085",
+            backgroundColor: "#cce5ff",
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            borderWidth: 3,
+            data: assets
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+
+        tooltips: {
+          enabled: false
+        },
+
+        scales: {
+          yAxes: [{
+
+            ticks: {
+              fontColor: "#9f9f9f",
+              beginAtZero: false,
+              maxTicksLimit: 5,
+              //padding: 20
+            },
+            gridLines: {
+              drawBorder: false,
+              zeroLineColor: "#ccc",
+              color: 'rgba(255,255,255,0.05)'
+            }
+
+          }],
+
+          xAxes: [{
+            barPercentage: 1.6,
+            gridLines: {
+              drawBorder: false,
+              color: 'rgba(255,255,255,0.1)',
+              zeroLineColor: "transparent",
+              display: false,
+            },
+            ticks: {
+              padding: 20,
+              fontColor: "#9f9f9f"
+            }
+          }]
+        },
+      }
+    });
+
+        });
+    </script>
 {% endblock %}
