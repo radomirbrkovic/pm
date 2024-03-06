@@ -102,25 +102,28 @@ class TransactionService:
         ).order_by('execution_date').
                  prefetch_related('category'))
 
-        data = {   'income': 0.0,
-                    'expenses': 0.0,
-                    'assets': 0.0,
-                    'liabilities': 0.0,
-                    'assets_share': 0.0,
-                    'liabilities_share': 0.0,
-                    'net_value': 0.0,
-                    'total_liabilities': 0.0,
-                    'chart': {
-                        'labels': [],
-                        'assets': {},
-                        'liabilities': {}
-                    }
-                   }
+        data = {
+            'income': 0.0,
+            'expenses': 0.0,
+            'assets': 0.0,
+            'liabilities': 0.0,
+            'assets_share': 0.0,
+            'liabilities_share': 0.0,
+            'net_value': 0.0,
+            'total_liabilities': 0.0,
+            'chart': {
+                'labels': [],
+                'assets': {},
+                'liabilities': {}
+            }
+               }
         for fund in funds:
             if fund.category.type == 'asset':
-                data['net_value'] = (data['net_value'] + float(fund.initial_amount))
+                data['net_value'] = (data['net_value']
+                                     + float(fund.initial_amount))
             elif fund.category.type == 'liability':
-                data['total_liabilities'] = (data['total_liabilities'] + float(fund.initial_amount))
+                data['total_liabilities'] = (data['total_liabilities']
+                                             + float(fund.initial_amount))
 
         for transaction in transactions:
             if (transaction.category.type in
@@ -129,38 +132,53 @@ class TransactionService:
                     (data['income'] +
                      float(transaction.amount))
             else:
-                data['expenses'] = (data['expenses'] + float(transaction.amount))
-                if transaction.date.strftime("%m-%Y") not in data['chart']['labels']:
-                    data['chart']['labels'].append(transaction.date.strftime("%m-%Y"))
+                data['expenses'] = (data['expenses']
+                                    + float(transaction.amount))
+                if (transaction.date.strftime("%m-%Y")
+                        not in data['chart']['labels']):
+                    (data['chart']['labels']
+                     .append(transaction.date.strftime("%m-%Y")))
 
                 if transaction.category.type == 'asset':
-                    data['assets'] = (data['assets'] + float(transaction.amount))
-                    if transaction.date.strftime("%m-%Y") not in data['chart']['assets']:
-                        data['chart']['assets'][transaction.date.strftime("%m-%Y")] = (
+                    data['assets'] = (data['assets']
+                                      + float(transaction.amount))
+                    if (transaction.date.strftime("%m-%Y")
+                            not in data['chart']['assets']):
+                        (data['chart']['assets']
+                            [transaction.date.strftime("%m-%Y")]) = (
                                 data['net_value'] + float(transaction.amount))
                     else:
-                        data['chart']['assets'][transaction.date.strftime("%m-%Y")] = (
-                                data['chart']['assets'][transaction.date.strftime("%m-%Y")] +
+                        (data['chart']['assets']
+                            [transaction.date.strftime("%m-%Y")]) = (
+                            (data['chart']['assets']
+                                [transaction.date.strftime("%m-%Y")]) +
                                 float(transaction.amount))
 
                 elif transaction.category.type == 'liability':
-                    data['liabilities'] = (data['liabilities'] +float(transaction.amount))
+                    data['liabilities'] = (data['liabilities']
+                                           + float(transaction.amount))
 
-                    if transaction.date.strftime("%m-%Y") not in data['chart']['liabilities']:
-                        data['chart']['liabilities'][transaction.date.strftime("%m-%Y")] = (
-                                data['total_liabilities'] + float(transaction.amount))
+                    if (transaction.date.strftime("%m-%Y")
+                            not in data['chart']['liabilities']):
+                        (data['chart']['liabilities']
+                            [transaction.date.strftime("%m-%Y")]) = (
+                                data['total_liabilities']
+                                + float(transaction.amount))
                     else:
-                        data['chart']['liabilities'][transaction.date.strftime("%m-%Y")] = (
-                                data['chart']['liabilities'][transaction.date.strftime("%m-%Y")] +
+                        (data['chart']['liabilities']
+                            [transaction.date.strftime("%m-%Y")]) = (
+                                (data['chart']['liabilities']
+                                    [transaction.date.strftime("%m-%Y")]) +
                                 float(transaction.amount))
 
         data['unallocated'] = data['income'] - data['liabilities']
 
-
         data['assets_share'] = (data['assets'] / data['income']) * 100
-        data['liabilities_share'] = (data['liabilities'] / data['income']) * 100
+        data['liabilities_share'] = (data['liabilities']
+                                     / data['income']) * 100
 
         data['net_value'] = data['net_value'] + data['assets']
-        data['total_liabilities'] = data['total_liabilities'] + data['liabilities']
+        data['total_liabilities'] = (data['total_liabilities']
+                                     + data['liabilities'])
 
         return data
